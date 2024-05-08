@@ -114,7 +114,10 @@ stdenv.mkDerivation (rec {
   ];
 
   buildInputs = [ libxml2 libffi ]
-    ++ optional enablePFM libpfm; # exegesis
+    ++ optional enablePFM libpfm # exegesis
+    ++ lib.optionals stdenv.isDarwin [
+    darwin.apple_sdk.frameworks.CoreFoundation
+  ];
 
   propagatedBuildInputs = (lib.optional (lib.versionAtLeast release_version "14" || stdenv.buildPlatform == stdenv.hostPlatform) ncurses)
     ++ [ zlib ];
